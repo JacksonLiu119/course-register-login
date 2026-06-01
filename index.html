@@ -22,8 +22,7 @@
 <body>
   <main>
     <h1>課程報名快速登入</h1>
-    <p>第一次使用時輸入帳號與密碼。勾選保存後，下次開啟此頁面會自動登入並前往課程清單。</p>
-    <iframe name="login_result" hidden></iframe>
+    <p>第一次使用時輸入帳號與密碼。勾選保存後，下次只要按一下登入按鈕。</p>
     <form id="login-form" method="post" action="http://163.30.23.237/register/login_stu.asp" target="login_result">
       <label for="account">帳號</label>
       <input id="account" name="kt_login_user" autocomplete="username" required>
@@ -40,8 +39,13 @@
     const account = document.getElementById("account");
     const password = document.getElementById("password");
     const remember = document.getElementById("remember");
-    const target = "http://163.30.23.237/register/class_list_2.asp?v=2#tab5";
+    const target = "http://163.30.23.237/register/class_list_2.asp?v=3#tab5";
 
+    if (new URLSearchParams(location.search).has("reset")) {
+      localStorage.removeItem("register.account");
+      localStorage.removeItem("register.password");
+      history.replaceState(null, "", location.pathname);
+    }
     account.value = localStorage.getItem("register.account") || "";
     password.value = localStorage.getItem("register.password") || "";
     remember.checked = Boolean(account.value && password.value);
@@ -54,10 +58,10 @@
         localStorage.removeItem("register.account");
         localStorage.removeItem("register.password");
       }
-      setTimeout(() => location.href = target, 1500);
+      setTimeout(() => {
+        window.open(target, "login_result");
+      }, 1500);
     });
-
-    if (remember.checked) form.requestSubmit();
   </script>
 </body>
 </html>

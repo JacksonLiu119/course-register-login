@@ -11,6 +11,12 @@
 
 帳密只保存在使用者自己的瀏覽器 `localStorage`，不會寫入 GitHub。請勿在公用電腦勾選保存。
 
+若要清除 LINE 內建瀏覽器或其他瀏覽器保存的帳密，開啟：
+
+```text
+https://jacksonliu119.github.io/course-register-login/?reset=1
+```
+
 ## 發佈到 GitHub Pages
 
 1. 在 GitHub 建立新的 public repository，例如 `course-register-login`。
