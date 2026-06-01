@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>課程報名快速登入</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f3f6fb; color: #1f2937; font-family: system-ui, "Microsoft JhengHei", sans-serif; }
+    main { width: min(380px, calc(100vw - 48px)); padding: 28px; border-radius: 16px; background: white; box-shadow: 0 8px 24px #0002; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    p { margin: 0 0 18px; color: #4b5563; font-size: 14px; }
+    label { display: block; margin-top: 12px; font-weight: 700; }
+    input, button { box-sizing: border-box; width: 100%; margin-top: 6px; padding: 11px 12px; border-radius: 8px; font: inherit; }
+    input { border: 1px solid #9ca3af; }
+    button { margin-top: 20px; border: 0; background: #1559b7; color: white; cursor: pointer; font-weight: 700; }
+    small { display: block; margin-top: 14px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>課程報名快速登入</h1>
+    <p>第一次使用時輸入帳號與密碼。勾選保存後，下次開啟此頁面會自動登入並前往課程清單。</p>
+    <iframe name="login_result" hidden></iframe>
+    <form id="login-form" method="post" action="http://163.30.23.237/register/login_stu.asp" target="login_result">
+      <label for="account">帳號</label>
+      <input id="account" name="kt_login_user" autocomplete="username" required>
+      <label for="password">密碼</label>
+      <input id="password" name="kt_login_password" type="password" autocomplete="current-password" required>
+      <label><input id="remember" type="checkbox"> 僅在此瀏覽器保存帳密並自動登入</label>
+      <input name="kt_login1" type="hidden" value="確定登入">
+      <button type="submit">登入並開啟課程頁</button>
+    </form>
+    <small>帳密只保存在使用者自己的瀏覽器，不會上傳到 GitHub。請勿在公用電腦勾選保存。</small>
+  </main>
+  <script>
+    const form = document.getElementById("login-form");
+    const account = document.getElementById("account");
+    const password = document.getElementById("password");
+    const remember = document.getElementById("remember");
+    const target = "http://163.30.23.237/register/class_list_2.asp#tab4";
+
+    account.value = localStorage.getItem("register.account") || "";
+    password.value = localStorage.getItem("register.password") || "";
+    remember.checked = Boolean(account.value && password.value);
+
+    form.addEventListener("submit", () => {
+      if (remember.checked) {
+        localStorage.setItem("register.account", account.value);
+        localStorage.setItem("register.password", password.value);
+      } else {
+        localStorage.removeItem("register.account");
+        localStorage.removeItem("register.password");
+      }
+      setTimeout(() => location.href = target, 1500);
+    });
+
+    if (remember.checked) form.requestSubmit();
+  </script>
+</body>
+</html>
